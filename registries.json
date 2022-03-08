@@ -1,34 +1,14 @@
 {
-    "npm": {
-        "home": "https://www.npmjs.org",
-        "registry": "https://registry.npmjs.org/"
+    "npm-group": {
+        "home": "http://127.0.0.1:8080/repository/npm-group/",
+        "registry": "http://127.0.0.1:8080/repository/npm-group/"
     },
-    "cnpm": {
-        "home": "http://cnpmjs.org",
-        "registry": "http://r.cnpmjs.org/"
+    "npm-taobao": {
+        "home": "http://127.0.0.1:8080/repository/npm-taobao/",
+        "registry": "http://127.0.0.1:8080/repository/npm-taobao/"
     },
-    "taobao": {
-        "home": "https://npmmirror.com",
-        "registry": "https://registry.npmmirror.com/"
-    },
-    "nj": {
-        "home": "https://www.nodejitsu.com",
-        "registry": "https://registry.nodejitsu.com/"
-    },
-    "rednpm": {
-        "home": "http://npm.mirror.cqupt.edu.cn/",
-        "registry": "http://registry.mirror.cqupt.edu.cn/"
-    },
-    "npmMirror": {
-        "home": "https://skimdb.npmjs.com/",
-        "registry": "https://skimdb.npmjs.com/registry/"
-    },
-    "edunpm": {
-        "home": "http://www.enpmjs.org",
-        "registry": "http://registry.enpmjs.org/"
-    },
-    "yarn": {
-        "home": "https://yarnpkg.com",
-        "registry": "https://registry.yarnpkg.com"
+    "thirdnpm": {
+        "home": "http://127.0.0.1:8080/repository/thirdnpm/",
+        "registry": "http://127.0.0.1:8080/repository/thirdnpm/"
     }
 }
