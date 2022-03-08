@@ -1,6 +1,6 @@
 {
   "name": "byrm",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "NPM registry manager can help you easy and fast switch between different npm registries, now include: cnpm, taobao, nj(nodejitsu), rednpm, edunpm",
   "bin": {
     "byrm": "./cli.js"
