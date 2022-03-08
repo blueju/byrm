@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-var path = require('path');
-var fs = require('fs');
-var program = require('commander');
-var npm = require('npm');
-var ini = require('ini');
-var echo = require('node-echo');
-var extend = require('extend');
-var open = require('open');
-var async = require('async');
-var request = require('request');
-var only = require('only');
+let path = require('path');
+let fs = require('fs');
+let program = require('commander');
+let npm = require('npm');
+let ini = require('ini');
+let echo = require('node-echo');
+let extend = require('extend');
+let open = require('open');
+let async = require('async');
+let request = require('request');
+let only = require('only');
 
-var registries = require('./registries.json');
-var PKG = require('./package.json');
-var BYRMRC = path.join(process.env.HOME, '.byrmrc');
-var YARNRC = path.join(process.env.HOME, '.yarnrc');
+let registries = require('./registries.json');
+let PKG = require('./package.json');
+let BYRMRC = path.join(process.env.HOME, '.byrmrc');
+let YARNRC = path.join(process.env.HOME, '.yarnrc');
 
 
 program
@@ -69,16 +69,16 @@ if (process.argv.length === 2) {
     program.outputHelp();
 }
 
-/*//////////////// cmd methods /////////////////*/
+/*/ /////////////// cmd methods ///////////////// */
 
 function onList() {
-    getCurrentRegistry(function(cur) {
-        var info = [''];
-        var allRegistries = getAllRegistry();
+    getCurrentRegistry((cur) => {
+        let info = [''];
+        let allRegistries = getAllRegistry();
 
-        Object.keys(allRegistries).forEach(function(key) {
-            var item = allRegistries[key];
-            var prefix = item.registry === cur ? '* ' : '  ';
+        Object.keys(allRegistries).forEach((key) => {
+            let item = allRegistries[key];
+            let prefix = item.registry === cur ? '* ' : '  ';
             info.push(prefix + key + line(key, 8) + item.registry);
         });
 
@@ -88,10 +88,10 @@ function onList() {
 }
 
 function showCurrent() {
-    getCurrentRegistry(function(cur) {
-        var allRegistries = getAllRegistry();
-        Object.keys(allRegistries).forEach(function(key) {
-            var item = allRegistries[key];
+    getCurrentRegistry((cur) => {
+        let allRegistries = getAllRegistry();
+        Object.keys(allRegistries).forEach((key) => {
+            let item = allRegistries[key];
             if (item.registry === cur) {
                 printMsg([key]);
                 return;
@@ -101,27 +101,27 @@ function showCurrent() {
 }
 
 function onUse(name) {
-    var allRegistries = getAllRegistry();
+    let allRegistries = getAllRegistry();
     if (allRegistries.hasOwnProperty(name)) {
-        var registry = allRegistries[name];
-        
-        fs.writeFile(YARNRC, 'registry "' + registry.registry + '"', function (err) {
-          if (err) throw err;
-          // console.log('It\'s saved!');
-          
-          printMsg([
-              '', '   YARN Registry has been set to: ' + registry.registry, ''
-          ]);
+        let registry = allRegistries[name];
+
+        fs.writeFile(YARNRC, 'registry "' + registry.registry + '"', (err) => {
+            if (err) throw err;
+            // console.log('It\'s saved!');
+
+            printMsg([
+                '', '   YARN Registry has been set to: ' + registry.registry, ''
+            ]);
         });
-        
+
         // 同时更改npm的源
-        npm.load(function (err) {
+        npm.load((err) => {
             if (err) return exit(err);
 
-            npm.commands.config(['set', 'registry', registry.registry], function (err, data) {
+            npm.commands.config(['set', 'registry', registry.registry], (err, data) => {
                 if (err) return exit(err);
                 console.log('                        ');
-                var newR = npm.config.get('registry');
+                let newR = npm.config.get('registry');
                 printMsg([
                     '', '   NPM Registry has been set to: ' + newR, ''
                 ]);
@@ -135,14 +135,14 @@ function onUse(name) {
 }
 
 function onDel(name) {
-    var customRegistries = getCustomRegistry();
+    let customRegistries = getCustomRegistry();
     if (!customRegistries.hasOwnProperty(name)) return;
-    getCurrentRegistry(function(cur) {
+    getCurrentRegistry((cur) => {
         if (cur === customRegistries[name].registry) {
             onUse('npm');
         }
         delete customRegistries[name];
-        setCustomRegistry(customRegistries, function(err) {
+        setCustomRegistry(customRegistries, (err) => {
             if (err) return exit(err);
             printMsg([
                 '', '    delete registry ' + name + ' success', ''
@@ -152,15 +152,15 @@ function onDel(name) {
 }
 
 function onAdd(name, url, home) {
-    var customRegistries = getCustomRegistry();
+    let customRegistries = getCustomRegistry();
     if (customRegistries.hasOwnProperty(name)) return;
-    var config = customRegistries[name] = {};
+    let config = customRegistries[name] = {};
     if (url[url.length - 1] !== '/') url += '/'; // ensure url end with /
     config.registry = url;
     if (home) {
         config.home = home;
     }
-    setCustomRegistry(customRegistries, function(err) {
+    setCustomRegistry(customRegistries, (err) => {
         if (err) return exit(err);
         printMsg([
             '', '    add registry ' + name + ' success', ''
@@ -169,19 +169,19 @@ function onAdd(name, url, home) {
 }
 
 function onHome(name, browser) {
-    var allRegistries = getAllRegistry();
-    var home = allRegistries[name] && allRegistries[name].home;
+    let allRegistries = getAllRegistry();
+    let home = allRegistries[name] && allRegistries[name].home;
     if (home) {
-        var args = [home];
+        let args = [home];
         if (browser) args.push(browser);
         open.apply(null, args);
     }
 }
 
 function onTest(registry) {
-    var allRegistries = getAllRegistry();
+    let allRegistries = getAllRegistry();
 
-    var toTest;
+    let toTest;
 
     if (registry) {
         if (!allRegistries.hasOwnProperty(registry)) {
@@ -192,23 +192,23 @@ function onTest(registry) {
         toTest = allRegistries;
     }
 
-    async.map(Object.keys(toTest), function(name, cbk) {
-        var registry = toTest[name];
-        var start = +new Date();
-        request(registry.registry + 'pedding', function(error) {
+    async.map(Object.keys(toTest), (name, cbk) => {
+        let registry = toTest[name];
+        let start = Number(new Date());
+        request(registry.registry + 'pedding', (error) => {
             cbk(null, {
                 name: name,
                 registry: registry.registry,
-                time: (+new Date() - start),
+                time: (Number(new Date()) - start),
                 error: error ? true : false
             });
         });
-    }, function(err, results) {
-        getCurrentRegistry(function(cur) {
-            var msg = [''];
-            results.forEach(function(result) {
-                var prefix = result.registry === cur ? '* ' : '  ';
-                var suffix = result.error ? 'Fetch Error' : result.time + 'ms';
+    }, (err, results) => {
+        getCurrentRegistry((cur) => {
+            let msg = [''];
+            results.forEach((result) => {
+                let prefix = result.registry === cur ? '* ' : '  ';
+                let suffix = result.error ? 'Fetch Error' : result.time + 'ms';
                 msg.push(prefix + result.name + line(result.name, 8) + suffix);
             });
             msg.push('');
@@ -219,13 +219,13 @@ function onTest(registry) {
 
 
 
-/*//////////////// helper methods /////////////////*/
+/*/ /////////////// helper methods ///////////////// */
 
 /*
  * get current registry
  */
 function getCurrentRegistry(cbk) {
-    npm.load(function(err, conf) {
+    npm.load((err, conf) => {
         if (err) return exit(err);
         cbk(npm.config.get('registry'));
     });
@@ -248,7 +248,7 @@ function printErr(err) {
 }
 
 function printMsg(infos) {
-    infos.forEach(function(info) {
+    infos.forEach((info) => {
         console.log(info);
     });
 }
@@ -262,12 +262,12 @@ function exit(err) {
 }
 
 function line(str, len) {
-    var line = new Array(Math.max(1, len - str.length)).join('-');
+    let line = new Array(Math.max(1, len - str.length)).join('-');
     return ' ' + line + ' ';
 }
 
 module.exports = {
-    getCurrentRegistry : getCurrentRegistry,
-    getCustomRegistry : getCustomRegistry,
+    getCurrentRegistry: getCurrentRegistry,
+    getCustomRegistry: getCustomRegistry,
     getAllRegistry: getAllRegistry
 }
