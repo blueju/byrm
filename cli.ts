@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 let path = require('path');
 let fs = require('fs');
@@ -35,21 +36,6 @@ program
     .command('use <registry>')
     .description('Change registry to registry')
     .action(onUse);
-
-program
-    .command('add <registry> <url> [home]')
-    .description('Add one custom registry')
-    .action(onAdd);
-
-program
-    .command('del <registry>')
-    .description('Delete one custom registry')
-    .action(onDel);
-
-program
-    .command('home <registry> [browser]')
-    .description('Open the homepage of registry with optional browser')
-    .action(onHome);
 
 program
     .command('test [registry]')
@@ -131,50 +117,6 @@ function onUse(name) {
         printMsg([
             '', '   Not find registry: ' + name, ''
         ]);
-    }
-}
-
-function onDel(name) {
-    let customRegistries = getCustomRegistry();
-    if (!customRegistries.hasOwnProperty(name)) return;
-    getCurrentRegistry((cur) => {
-        if (cur === customRegistries[name].registry) {
-            onUse('npm');
-        }
-        delete customRegistries[name];
-        setCustomRegistry(customRegistries, (err) => {
-            if (err) return exit(err);
-            printMsg([
-                '', '    delete registry ' + name + ' success', ''
-            ]);
-        });
-    });
-}
-
-function onAdd(name, url, home) {
-    let customRegistries = getCustomRegistry();
-    if (customRegistries.hasOwnProperty(name)) return;
-    let config = customRegistries[name] = {};
-    if (url[url.length - 1] !== '/') url += '/'; // ensure url end with /
-    config.registry = url;
-    if (home) {
-        config.home = home;
-    }
-    setCustomRegistry(customRegistries, (err) => {
-        if (err) return exit(err);
-        printMsg([
-            '', '    add registry ' + name + ' success', ''
-        ]);
-    });
-}
-
-function onHome(name, browser) {
-    let allRegistries = getAllRegistry();
-    let home = allRegistries[name] && allRegistries[name].home;
-    if (home) {
-        let args = [home];
-        if (browser) args.push(browser);
-        open.apply(null, args);
     }
 }
 
