@@ -13,7 +13,7 @@ var only = require('only');
 
 var registries = require('./registries.json');
 var PKG = require('./package.json');
-var YRMRC = path.join(process.env.HOME, '.yrmrc');
+var YRMRC = path.join(process.env.HOME, '.byrmrc');
 var YARNRC = path.join(process.env.HOME, '.yarnrc');
 
 

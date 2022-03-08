@@ -2,7 +2,7 @@
 var path = require('path');
 var fs = require('fs');
 var ini = require('ini');
-var NRMRC = path.join(process.env.HOME, '.yrmrc');
+var NRMRC = path.join(process.env.HOME, '.byrmrc');
 
 console.log("NRMRC Contents:");
 var nrmrc = fs.readFileSync(NRMRC, 'utf-8');

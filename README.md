@@ -1,20 +1,20 @@
-yrm -- YARN registry manager
+byrm -- YARN registry manager
 ===
 
 [![NPM version][npm-image]][npm-url]
 
-`yrm` can help you easy and fast switch between different npm registries,
+`byrm` can help you easy and fast switch between different npm registries,
 now include: `npm`, `cnpm`, `taobao`, `nj(nodejitsu)`, `rednpm`, `yarn`.
 
 ## Install
 
 ```
-$ npm install -g yrm
+$ npm install -g byrm
 ```
 
 ## Example
 ```
-$ yrm ls
+$ byrm ls
 
 * npm -----  https://registry.npmjs.org/
   cnpm ----  http://r.cnpmjs.org/
@@ -27,7 +27,7 @@ $ yrm ls
 ```
 
 ```
-$ yrm use cnpm  //switch registry to cnpm
+$ byrm use cnpm  //switch registry to cnpm
 
     Registry has been set to: http://r.cnpmjs.org/
 
@@ -36,7 +36,7 @@ $ yrm use cnpm  //switch registry to cnpm
 ## Usage
 
 ```
-Usage: yrm [options] [command]
+Usage: byrm [options] [command]
 
   Commands:
 
@@ -75,5 +75,5 @@ When you use an other registry, you can not use the `publish` command.
 MIT
 
 
-[npm-image]: https://img.shields.io/npm/v/yrm.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/yrm
+[npm-image]: https://img.shields.io/npm/v/byrm.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/byrm
