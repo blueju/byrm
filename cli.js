@@ -13,7 +13,7 @@ var only = require('only');
 
 var registries = require('./registries.json');
 var PKG = require('./package.json');
-var YRMRC = path.join(process.env.HOME, '.byrmrc');
+var BYRMRC = path.join(process.env.HOME, '.byrmrc');
 var YARNRC = path.join(process.env.HOME, '.yarnrc');
 
 
@@ -231,11 +231,11 @@ function getCurrentRegistry(cbk) {
 }
 
 function getCustomRegistry() {
-    return fs.existsSync(YRMRC) ? ini.parse(fs.readFileSync(YRMRC, 'utf-8')) : {};
+    return fs.existsSync(BYRMRC) ? ini.parse(fs.readFileSync(BYRMRC, 'utf-8')) : {};
 }
 
 function setCustomRegistry(config, cbk) {
-    echo(ini.stringify(config), '>', YRMRC, cbk);
+    echo(ini.stringify(config), '>', BYRMRC, cbk);
 }
 
 function getAllRegistry() {
